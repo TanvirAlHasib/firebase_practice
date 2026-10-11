@@ -1,4 +1,5 @@
 import 'package:firebase_practice/constraints/Colours.dart';
+import 'package:firebase_practice/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -9,6 +10,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    chooseNextScreen();
+    super.initState();
+  }
+
+  // make the splash delay here
+  Future<void> chooseNextScreen() async {
+    Future.delayed(Duration(seconds: 3), () {
+
+      if(!mounted){
+        return;
+      }
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+
+    },);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
