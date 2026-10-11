@@ -1,5 +1,6 @@
 import 'package:firebase_practice/constraints/Colours.dart';
 import 'package:firebase_practice/screens/dashboard_screen.dart';
+import 'package:firebase_practice/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
 
     },);
   }
