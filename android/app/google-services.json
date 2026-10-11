@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824635171829",
+    "project_id": "fir-taskmanager-87f4d",
+    "storage_bucket": "fir-taskmanager-87f4d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824635171829:android:18add6b1b2226d5679f6bc",
+        "android_client_info": {
+          "package_name": "com.stardust.firebase_practice.firebase_practice"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmJs-sK1nmDvBPIz0j6dsd-_LwzkciIUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
