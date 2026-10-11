@@ -10,6 +10,16 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+
+          ],
+        ),
+      ),
+    );
   }
 }
