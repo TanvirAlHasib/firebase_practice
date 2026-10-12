@@ -274,14 +274,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                 : () {
                               if (formKey.currentState!.validate()) {
 
-                                final name =
-                                nameController.text.trim();
-
-                                final email =
-                                emailController.text.trim();
-
-                                final password =
-                                    passwordController.text;
+                                final name = nameController.text.trim();
+                                final email = emailController.text.trim();
+                                final password = passwordController.text;
 
                                 // TODO: Implement Firebase Registration
                               }
@@ -289,7 +284,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
-                              const Color(0xFF4F46E5),
+                              Color(Colours.buttonColor),
                               foregroundColor: Colors.white,
                               elevation: 0,
 
