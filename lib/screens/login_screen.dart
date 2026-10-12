@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_practice/constraints/Colours.dart';
+import 'package:firebase_practice/screens/dashboard_screen.dart';
 import 'package:firebase_practice/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   bool isPasswordVisible = false;
   bool isLoading = false;
@@ -219,14 +223,42 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: ElevatedButton(
                             onPressed: isLoading
                                 ? null
-                                : () {
+                                : () async {
                               if (formKey.currentState!.validate()) {
 
                                 final email = emailController.text.trim();
 
                                 final password = passwordController.text;
 
-                                // TODO: Implement Firebase Login
+                                setState(() {
+                                  isLoading = true;
+                                });
+
+                                try{
+                                  // log in the user
+                                  UserCredential userCredential = await auth.signInWithEmailAndPassword(
+                                      email: email, password: password);
+                                  if(userCredential.user != null){
+                                    if(mounted){
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("log in successful!!")));
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+                                    }
+                                  }
+
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+
+                                } on FirebaseException catch(e){
+                                  if(mounted){
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
+                                  }
+                                } finally{
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+
                               }
                             },
 
