@@ -1,4 +1,5 @@
 import 'package:firebase_practice/constraints/Colours.dart';
+import 'package:firebase_practice/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -377,7 +378,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       TextButton(
                         onPressed: () {
-                          // TODO: Navigate to Sign Up Screen
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignupScreen(),));
                         },
                         child: const Text(
                           "Sign Up",
