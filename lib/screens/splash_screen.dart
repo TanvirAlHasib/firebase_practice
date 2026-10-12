@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_practice/constraints/Colours.dart';
 import 'package:firebase_practice/screens/dashboard_screen.dart';
 import 'package:firebase_practice/screens/login_screen.dart';
@@ -11,6 +12,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -26,7 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+      if(auth.currentUser == null){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+      } else{
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+      }
 
     },);
   }
