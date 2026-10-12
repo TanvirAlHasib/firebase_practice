@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_practice/constraints/Colours.dart';
 import 'package:firebase_practice/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -275,16 +279,50 @@ class _SignupScreenState extends State<SignupScreen> {
                                 : () async {
                               if (formKey.currentState!.validate()) {
 
+                                setState(() {
+                                  isLoading = true;
+                                });
+
                                 final name = nameController.text.trim();
                                 final email = emailController.text.trim();
                                 final password = passwordController.text;
 
-                                // creating new document for new user
-                                await FirebaseFirestore.instance.collection("taskManager").doc(email).set({
-                                  "name": name,
-                                  "email": email,
-                                  "task": {}
-                                });
+                                try{
+                                  // creating user
+                                  UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password);
+
+                                  if(userCredential.user != null){
+                                    await firebaseFirestore.collection("taskManager").doc(userCredential.user?.uid).set({
+                                      "name": name,
+                                      "email": email,
+                                      "uid": userCredential.user?.uid
+                                    });
+                                  }
+
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+
+                                  if(mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text(
+                                            "Sign up successful")));
+                                    // navigating to the login screen
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) =>
+                                            LoginScreen(),));
+                                  }
+
+                                } on FirebaseAuthException catch(e){
+                                  if(!mounted){
+                                    return;
+                                  }
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
+                                } finally{
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
 
                               }
                             },
