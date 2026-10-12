@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_practice/constraints/Colours.dart';
 import 'package:firebase_practice/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -271,14 +272,20 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: ElevatedButton(
                             onPressed: isLoading
                                 ? null
-                                : () {
+                                : () async {
                               if (formKey.currentState!.validate()) {
 
                                 final name = nameController.text.trim();
                                 final email = emailController.text.trim();
                                 final password = passwordController.text;
 
-                                // TODO: Implement Firebase Registration
+                                // creating new document for new user
+                                await FirebaseFirestore.instance.collection("taskManager").doc(email).set({
+                                  "name": name,
+                                  "email": email,
+                                  "task": {}
+                                });
+
                               }
                             },
 
