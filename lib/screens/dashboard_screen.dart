@@ -1,4 +1,5 @@
 import 'package:firebase_practice/constraints/Colours.dart';
+import 'package:firebase_practice/screens/create_task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -141,6 +142,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             );
           },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Color(Colours.buttonColor),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreateTasskScreen(),
+            ),
+          );
+        },
+        icon: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        label: Text(
+          "New Task",
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
