@@ -1,5 +1,6 @@
 import 'package:firebase_practice/constraints/Colours.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -46,7 +47,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               )
             ],
           ),
-          Text("Today. Monday,Oct 5", style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+          Text("Today. ${getDateFormat()}", style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: Color(Colours.secondaryFontColor),
               fontWeight: FontWeight.w700
           ),),
@@ -62,5 +63,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
       actionsPadding: const EdgeInsets.symmetric(horizontal: 5),
     );
+  }
+
+  // get dateFormat
+  String getDateFormat(){
+    final date = DateTime.now();
+    return DateFormat('EEEE, MMM d').format(date);
   }
 }
