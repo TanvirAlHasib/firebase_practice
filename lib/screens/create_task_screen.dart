@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_practice/constraints/Colours.dart';
 import 'package:firebase_practice/constraints/firestore.dart';
+import 'package:firebase_practice/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -281,12 +282,19 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                       "isDone": false,
                                       "createdAt": DateFormat('dd/MM/yyyy').format(DateTime.now())
                                     });
+                                if(mounted){
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Task added successfully!!")));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+                                }
+
                               } else{
                                 return;
                               }
 
                             } on FirebaseException catch(e){
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
+                              if(mounted){
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
+                              }
                             } finally{
                               setState(() {
                                 isLoading = false;
