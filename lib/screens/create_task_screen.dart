@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_practice/constraints/Colours.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,13 +15,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   DateTime selectedDate = DateTime.now();
-
   String selectedPriority = "Medium";
-
   bool isLoading = false;
 
   @override
@@ -258,14 +259,24 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                           if (formKey.currentState!.validate()) {
 
                             final title = titleController.text.trim();
-
                             final notes = notesController.text.trim();
-
                             final dueDate = selectedDate;
-
                             final priority = selectedPriority;
 
-                            // TODO: Save task to Firestore
+                            try{
+                              setState(() {
+                                isLoading = true;
+                              });
+                              // firebase task manage
+
+
+                            } on FirebaseException catch(e){
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
+                            } finally{
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
                           }
                         },
 
