@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_practice/constraints/Colours.dart';
+import 'package:firebase_practice/constraints/firestore.dart';
 import 'package:firebase_practice/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -292,10 +294,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                   UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password);
 
                                   if(userCredential.user != null){
-                                    await firebaseFirestore.collection("taskManager").doc(userCredential.user?.uid).set({
+                                    await firebaseFirestore.collection(Firestore.collectionName).doc(userCredential.user?.uid).set({
                                       "name": name,
                                       "email": email,
-                                      "uid": userCredential.user?.uid
+                                      "uid": userCredential.user?.uid,
+                                      "createdAt": DateFormat('dd/MM/yyyy').format(DateTime.now())
                                     });
                                   }
 
