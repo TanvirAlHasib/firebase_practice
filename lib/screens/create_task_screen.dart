@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_practice/constraints/Colours.dart';
+import 'package:firebase_practice/constraints/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -255,7 +256,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       child: ElevatedButton(
                         onPressed: isLoading
                             ? null
-                            : () {
+                            : () async {
                           if (formKey.currentState!.validate()) {
 
                             final title = titleController.text.trim();
@@ -268,7 +269,21 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                 isLoading = true;
                               });
                               // firebase task manage
-
+                              if(auth.currentUser != null){
+                                await firebaseFirestore.collection(Firestore.collectionName)
+                                    .doc(auth.currentUser!.uid)
+                                    .collection(Firestore.taskCollectionName)
+                                    .add({
+                                      "title": title,
+                                      "note": notes,
+                                      "dueDate": dueDate,
+                                      "priority": priority,
+                                      "isDone": false,
+                                      "createdAt": DateFormat('dd/MM/yyyy').format(DateTime.now())
+                                    });
+                              } else{
+                                return;
+                              }
 
                             } on FirebaseException catch(e){
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
