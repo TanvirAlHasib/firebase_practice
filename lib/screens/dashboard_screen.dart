@@ -20,21 +20,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: myAppBar(context),
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (BuildContext context, int index) {
+        child: StreamBuilder(
+          stream: null,
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             return Column(
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: BoxBorder.all(
-                      color: Colors.grey.shade300,
-                      width: 0.5,
-                      strokeAlign: BorderSide.strokeAlignOutside
-                    )
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: BoxBorder.all(
+                          color: Colors.grey.shade300,
+                          width: 0.5,
+                          strokeAlign: BorderSide.strokeAlignOutside
+                      )
                   ),
                   child: ListTile(
                     leading: Checkbox(
