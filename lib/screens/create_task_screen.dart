@@ -54,7 +54,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: now,
       firstDate: DateTime(now.year, now.month, now.day),
       lastDate: DateTime(2100),
     );
