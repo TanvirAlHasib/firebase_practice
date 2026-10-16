@@ -233,6 +233,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 String note = data[index]["note"];
                 DateTime dueDate = data[index]["dueDate"].toDate();
                 String priority = data[index]["priority"];
+                bool isDone = data[index]["isDone"];
+                String docId = data[index]["docId"];
 
                 //navigate to the create task screen
                 Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTaskScreen(
@@ -241,6 +243,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   noteText: note,
                   priority: priority,
                   dueDate: dueDate,
+                  docId: docId,
+                  isDone: isDone,
                 ),));
               },
               style: IconButton.styleFrom(

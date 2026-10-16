@@ -7,11 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CreateTaskScreen extends StatefulWidget {
-  CreateTaskScreen({super.key, this.titleText, this.noteText, this.priority, this.dueDate, required this.forEdit});
+  CreateTaskScreen({super.key, this.titleText, this.noteText, this.priority,
+    this.dueDate, required this.forEdit, this.docId, this.isDone});
   String? titleText;
   String? noteText;
   DateTime? dueDate;
   String? priority;
+  String? docId;
+  bool? isDone;
   final bool forEdit;
 
   @override
@@ -312,13 +315,14 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                               } else if(auth.currentUser != null && widget.forEdit){
                                 await firebaseFirestore.collection(Firestore.collectionName).doc(auth.currentUser!.uid)
                                     .collection(Firestore.taskCollectionName)
-                                    .doc()
+                                    .doc(widget.docId)
                                     .update({
                                       "title": title,
                                       "note": notes,
                                       "dueDate": dueDate,
                                       "priority": priority,
-                                      "isDone": false,
+                                      "isDone": widget.isDone,
+                                      "docId": widget.docId,
                                       "createdAt": DateFormat('dd/MM/yyyy').format(DateTime.now())
                                     });
                                 if(mounted){
