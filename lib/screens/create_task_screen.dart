@@ -32,7 +32,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
   @override
   void initState() {
-
+    if(widget.forEdit){
+      titleController.text = widget.titleText!;
+      notesController.text = widget.noteText!;
+      selectedDate = widget.dueDate!;
+      selectedPriority = widget.priority!;
+    }
     super.initState();
   }
 
