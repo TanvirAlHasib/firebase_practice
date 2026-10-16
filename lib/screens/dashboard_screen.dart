@@ -229,7 +229,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
             IconButton(
               onPressed: () {
                 //edit the task
+                String title = data[index]["title"];
+                String note = data[index]["note"];
+                DateTime dueDate = data[index]["dueDate"].toDate();
+                String priority = data[index]["priority"];
 
+                //navigate to the create task screen
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTaskScreen(
+                  forEdit: true,
+                  titleText: title,
+                  noteText: note,
+                  priority: priority,
+                  dueDate: dueDate,
+                ),));
               },
               style: IconButton.styleFrom(
                   foregroundColor: Color(Colours.secondaryFontColor)
