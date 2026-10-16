@@ -287,17 +287,23 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                               });
                               // firebase task manage
                               if(auth.currentUser != null && !widget.forEdit){
-                                await firebaseFirestore.collection(Firestore.collectionName)
+                                //getting the document reference to store the document id
+                                // later it will be needed to update a specific task
+                                final docRef = firebaseFirestore.collection(Firestore.collectionName)
                                     .doc(auth.currentUser!.uid)
                                     .collection(Firestore.taskCollectionName)
-                                    .add({
-                                      "title": title,
-                                      "note": notes,
-                                      "dueDate": dueDate,
-                                      "priority": priority,
-                                      "isDone": false,
-                                      "createdAt": DateFormat('dd/MM/yyyy').format(DateTime.now())
-                                    });
+                                    .doc();
+                                //adding the task with doc id
+                                await docRef.set({
+                                  "title": title,
+                                  "note": notes,
+                                  "dueDate": dueDate,
+                                  "priority": priority,
+                                  "isDone": false,
+                                  "docId": docRef.id,
+                                  "createdAt": DateFormat('dd/MM/yyyy').format(DateTime.now())
+                                });
+
                                 if(mounted){
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Task added successfully!!")));
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
@@ -306,7 +312,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                               } else if(auth.currentUser != null && widget.forEdit){
                                 await firebaseFirestore.collection(Firestore.collectionName).doc(auth.currentUser!.uid)
                                     .collection(Firestore.taskCollectionName)
-                                    .doc() //TODO: here I have to give the id of the task that I want to update
+                                    .doc()
                                     .update({
                                       "title": title,
                                       "note": notes,
