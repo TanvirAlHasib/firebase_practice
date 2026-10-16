@@ -31,6 +31,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   bool isLoading = false;
 
   @override
+  void initState() {
+
+    super.initState();
+  }
+
+  @override
   void dispose() {
     titleController.dispose();
     notesController.dispose();
