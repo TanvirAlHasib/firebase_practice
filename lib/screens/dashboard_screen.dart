@@ -253,7 +253,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
               icon: Icon(Icons.edit)
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                //delete the task
+                try{
+                  await firebaseFirestore.collection(Firestore.collectionName)
+                      .doc(auth.currentUser!.uid)
+                      .collection(Firestore.taskCollectionName)
+                      .doc(data[index]["docId"])
+                      .delete();
+                  if(mounted){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Task deleted successfully!!")));
+                  }
+                } on FirebaseException catch(e){
+                  if(mounted){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
+                  }
+                }
+              },
               style: IconButton.styleFrom(
                   foregroundColor: Color(Colours.secondaryFontColor)
               ),
