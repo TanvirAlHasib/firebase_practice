@@ -286,7 +286,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                 isLoading = true;
                               });
                               // firebase task manage
-                              if(auth.currentUser != null){
+                              if(auth.currentUser != null && !widget.forEdit){
                                 await firebaseFirestore.collection(Firestore.collectionName)
                                     .doc(auth.currentUser!.uid)
                                     .collection(Firestore.taskCollectionName)
@@ -303,6 +303,22 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
                                 }
 
+                              } else if(auth.currentUser != null && widget.forEdit){
+                                await firebaseFirestore.collection(Firestore.collectionName).doc(auth.currentUser!.uid)
+                                    .collection(Firestore.taskCollectionName)
+                                    .doc() //TODO: here I have to give the id of the task that I want to update
+                                    .update({
+                                      "title": title,
+                                      "note": notes,
+                                      "dueDate": dueDate,
+                                      "priority": priority,
+                                      "isDone": false,
+                                      "createdAt": DateFormat('dd/MM/yyyy').format(DateTime.now())
+                                    });
+                                if(mounted){
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Task updated successfully!!")));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
+                                }
                               } else{
                                 return;
                               }
