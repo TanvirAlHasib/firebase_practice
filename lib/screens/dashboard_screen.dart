@@ -107,7 +107,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const CreateTaskScreen(),
+              builder: (context) => CreateTaskScreen(forEdit: false,),
             ),
           );
         },
@@ -227,18 +227,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             Spacer(),
             IconButton(
-                onPressed: () {},
-                style: IconButton.styleFrom(
-                    foregroundColor: Color(Colours.secondaryFontColor)
-                ),
-                icon: Icon(Icons.edit)
+              onPressed: () {
+                //edit the task
+
+              },
+              style: IconButton.styleFrom(
+                  foregroundColor: Color(Colours.secondaryFontColor)
+              ),
+              icon: Icon(Icons.edit)
             ),
             IconButton(
-                onPressed: () {},
-                style: IconButton.styleFrom(
-                    foregroundColor: Color(Colours.secondaryFontColor)
-                ),
-                icon: Icon(Icons.delete)
+              onPressed: () {},
+              style: IconButton.styleFrom(
+                  foregroundColor: Color(Colours.secondaryFontColor)
+              ),
+              icon: Icon(Icons.delete)
             ),
           ],
         ),

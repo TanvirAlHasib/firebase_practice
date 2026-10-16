@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CreateTaskScreen extends StatefulWidget {
-  const CreateTaskScreen({super.key});
+  CreateTaskScreen({super.key, this.titleText, this.noteText, this.priority, this.dueDate, required this.forEdit});
+  String? titleText;
+  String? noteText;
+  DateTime? dueDate;
+  String? priority;
+  final bool forEdit;
 
   @override
   State<CreateTaskScreen> createState() => _CreateTaskScreenState();
