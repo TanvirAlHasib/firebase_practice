@@ -265,7 +265,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             Spacer(),
             IconButton(
-              onPressed: () {
+              onPressed: (data[index]["isDone"]) ? () => ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("Task is done, can not edit!!")))
+                  : () {
                 //edit the task
                 String title = data[index]["title"];
                 String note = data[index]["note"];
