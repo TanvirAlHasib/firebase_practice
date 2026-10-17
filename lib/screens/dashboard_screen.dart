@@ -142,6 +142,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   AppBar myAppBar(BuildContext context){
     return AppBar(
       backgroundColor: Color(Colours.backgroundColor),
+      automaticallyImplyLeading: false,
       elevation: 2,
       title: Column(
         crossAxisAlignment: .start,
