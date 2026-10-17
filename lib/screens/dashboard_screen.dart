@@ -178,6 +178,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final date = DateTime.now();
     return DateFormat('EEEE, MMM d').format(date);
   }
+  
+  // get the priority color
+  List<Color> getPriorityColor(dynamic data, int index){
+    if(data[index]["priority"].toString().contains("Low")){
+      return [Colors.green.shade800, Colors.green.shade50];
+    } else if(data[index]["priority"].toString().contains("Medium")){
+      return [Colors.orange.shade800, Colors.orange.shade50];
+    } else {
+      return [Colors.red.shade800, Colors.red.shade50];
+    }
+  }
 
   // tasks
   Widget tasks(dynamic data, int index){
@@ -212,7 +223,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             Visibility(
-              visible: isDone,
+              visible: data[index]["isDone"],
               child: Card(
                 color: Colors.green.shade50,
                 elevation: 0,
