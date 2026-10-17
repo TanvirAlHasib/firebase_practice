@@ -63,7 +63,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: (data[index]["isDone"]) ? Colors.grey.shade200 : Colors.white,
                           borderRadius: BorderRadius.circular(20),
                           border: BoxBorder.all(
                               color: Colors.grey.shade300,
@@ -341,8 +341,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
         Text(data[index]["title"], style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            color: Color(Colours.fontColor),
-            fontWeight: FontWeight.w600
+          color: (data[index]["isDone"]) ? Color(Colours.secondaryFontColor) : Color(Colours.fontColor),
+          fontWeight: FontWeight.w600,
+          decoration: (data[index]["isDone"]) ? TextDecoration.lineThrough : TextDecoration.none,
+          decorationColor: Color(Colours.secondaryFontColor)
         ),),
         const SizedBox(
           height: 2,
