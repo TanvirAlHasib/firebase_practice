@@ -182,23 +182,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // get the priority color
   List<Color> getPriorityColor(dynamic data, int index){
     if(data[index]["priority"].toString().contains("Low")){
-      return [Colors.green.shade800, Colors.green.shade50];
+      return [Colors.green.shade900, Colors.green.shade50];
     } else if(data[index]["priority"].toString().contains("Medium")){
-      return [Colors.orange.shade800, Colors.orange.shade50];
+      return [Colors.orange.shade900, Colors.orange.shade50];
     } else {
-      return [Colors.red.shade800, Colors.red.shade50];
+      return [Colors.red.shade900, Colors.red.shade50];
     }
   }
 
   // tasks
   Widget tasks(dynamic data, int index){
+    List<Color> priorityColors = getPriorityColor(data, index);
     return Column(
       crossAxisAlignment: .start,
       children: [
         Row(
           children: [
             Card(
-              color: Colors.red.shade50,
+              color: priorityColors[1],
               elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
@@ -210,12 +211,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       width: 6,
                       height: 6,
                       decoration: BoxDecoration(
-                          color: Colors.red.shade900,
+                          color: priorityColors[0],
                           borderRadius: BorderRadius.circular(6)
                       ),
                     ),
                     Text(data[index]["priority"], style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.red.shade800,
+                        color: priorityColors[0],
                         fontWeight: FontWeight.w600
                     ),),
                   ],
@@ -229,10 +230,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 elevation: 0,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 15),
-                  child: Text("Done", style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.green.shade800,
-                      fontWeight: FontWeight.w600
-                  ),),
+                  child: Row(
+                    spacing: 4,
+                    mainAxisSize: .min,
+                    children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade800,
+                            borderRadius: BorderRadius.circular(6)
+                        ),
+                      ),
+                      Text("Done", style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.green.shade800,
+                          fontWeight: FontWeight.w600
+                      ),),
+                    ],
+                  ),
                 ),
               ),
             ),
