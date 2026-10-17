@@ -281,6 +281,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               .collection(Firestore.taskCollectionName)
                               .doc(data[index]["docId"])
                               .delete();
+                          Navigator.pop(context);
                         }, child: Text("Yes")),
                         TextButton(onPressed: () {
                           Navigator.pop(context);
@@ -288,10 +289,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     );
                   },);
-                  if(mounted){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Task deleted successfully!!")));
-                    Navigator.pop(context);
-                  }
                 } on FirebaseException catch(e){
                   if(mounted){
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
