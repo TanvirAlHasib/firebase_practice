@@ -256,13 +256,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
               onPressed: () async {
                 //delete the task
                 try{
-                  await firebaseFirestore.collection(Firestore.collectionName)
-                      .doc(auth.currentUser!.uid)
-                      .collection(Firestore.taskCollectionName)
-                      .doc(data[index]["docId"])
-                      .delete();
+                  await showDialog(context: context, builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.white,
+                      elevation: 2,
+                      title: Row(
+                        mainAxisSize: .min,
+                        spacing: 6,
+                        children: [
+                          Icon(Icons.dangerous, color: Colors.orange.shade700, size: 20,),
+                          Text("Delete!!", style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Color(Colours.fontColor),
+                            fontWeight: FontWeight.w600
+                          ),)
+                        ],
+                      ),
+                      content: Text("Do you want to delete the task?", style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Color(Colours.fontColor),
+                      ),),
+                      actions: [
+                        TextButton(onPressed: () async {
+                          await firebaseFirestore.collection(Firestore.collectionName)
+                              .doc(auth.currentUser!.uid)
+                              .collection(Firestore.taskCollectionName)
+                              .doc(data[index]["docId"])
+                              .delete();
+                        }, child: Text("Yes")),
+                        TextButton(onPressed: () {
+                          Navigator.pop(context);
+                        }, child: Text("No")),
+                      ],
+                    );
+                  },);
                   if(mounted){
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Task deleted successfully!!")));
+                    Navigator.pop(context);
                   }
                 } on FirebaseException catch(e){
                   if(mounted){
