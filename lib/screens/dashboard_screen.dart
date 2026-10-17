@@ -14,7 +14,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  bool isDone = false;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -74,11 +73,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       child: ListTile(
                         leading: Checkbox(
-                          value: isDone,
-                          onChanged: (value) {
-                            setState(() {
-                              isDone = value ?? false;
-                            });
+                          value: data[index]["isDone"],
+                          onChanged: (value) async {
+                            try{
+                              await firebaseFirestore.collection(Firestore.collectionName)
+                                  .doc(auth.currentUser!.uid)
+                                  .collection(Firestore.taskCollectionName)
+                                  .doc(data[index]["docId"])
+                                  .update({
+                                "isDone": value ?? false
+                              });
+
+                            } on FirebaseException catch(e){
+                              if(mounted){
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(e.message!),
+                                ));
+                              }
+                            }
                           },
                           shape: const CircleBorder(),
                           side: BorderSide(
@@ -350,7 +362,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         Row(
           children: [
-            isDone ? Icon(Icons.check_circle_rounded, size: 17, color: Color(Colours.secondaryFontColor),)
+            data[index]["isDone"] ? Icon(Icons.check_circle_rounded, size: 17, color: Color(Colours.secondaryFontColor),)
                 : Icon(Icons.calendar_month, size: 17, color: Color(Colours.secondaryFontColor),),
             const SizedBox(
               width: 6,
